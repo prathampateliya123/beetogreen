@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useCallback, useEffect, useLayoutEffect, useRef } from "react";
 import { useApp } from "@/context/AppContext";
 
 const SHAPES = {
@@ -29,6 +29,8 @@ const SHAPES = {
 
 const CARD_SHAPES = ["BottomRound", "E", "TopRound", "ReverseB"];
 
+const HIDDEN_DASH = 99999;
+
 function preparePaths(container) {
   const paths = container.querySelectorAll("path");
   paths.forEach((path) => {
@@ -47,12 +49,31 @@ function drawPaths(container, duration = 1.5, delay = 0.1) {
   });
 }
 
+function redrawPaths(container, duration = 1.5, delay = 0.1) {
+  if (!container) return;
+  const paths = container.querySelectorAll("path");
+  paths.forEach((path) => {
+    const length = path.getTotalLength();
+    path.style.transition = "none";
+    path.style.strokeDashoffset = `${length}`;
+  });
+  container.getBoundingClientRect();
+  paths.forEach((path) => {
+    path.style.transition = `stroke-dashoffset ${duration}s cubic-bezier(0.65, 0, 0.35, 1) ${delay}s`;
+  });
+  container.getBoundingClientRect();
+  paths.forEach((path) => {
+    path.style.strokeDashoffset = "0";
+  });
+}
+
 export default function UiShape({
   shape,
   className = "",
   duration = 1.5,
   delay = 0.1,
   threshold = 0.5,
+  entered,
 }) {
   const wrapperRef = useRef(null);
   const drawnRef = useRef(false);
@@ -60,24 +81,30 @@ export default function UiShape({
   const config = SHAPES[shape];
 
   const canAnimate = isPreloaderDone && !isPreloaderTransition;
+  const useExternalEnter = entered !== undefined;
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (!wrapperRef.current || !config) return;
     preparePaths(wrapperRef.current);
   }, [config]);
 
+  const runDraw = useCallback(() => {
+    if (!wrapperRef.current || drawnRef.current || !canAnimate) return;
+    drawnRef.current = true;
+    preparePaths(wrapperRef.current);
+    wrapperRef.current.getBoundingClientRect();
+    drawPaths(wrapperRef.current, duration, delay);
+  }, [canAnimate, duration, delay]);
+
   useEffect(() => {
-    if (!wrapperRef.current || !config || !canAnimate) return;
+    if (!useExternalEnter || !entered || !canAnimate || !wrapperRef.current) return;
+    runDraw();
+  }, [useExternalEnter, entered, canAnimate, runDraw]);
+
+  useEffect(() => {
+    if (useExternalEnter || !wrapperRef.current || !config || !canAnimate) return;
 
     const node = wrapperRef.current;
-
-    const runDraw = () => {
-      if (drawnRef.current) return;
-      drawnRef.current = true;
-      preparePaths(node);
-      node.getBoundingClientRect();
-      drawPaths(node, duration, delay);
-    };
 
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -98,7 +125,23 @@ export default function UiShape({
     }
 
     return () => observer.disconnect();
-  }, [canAnimate, config, duration, delay, threshold]);
+  }, [useExternalEnter, canAnimate, config, threshold, runDraw]);
+
+  const wasPreloaderTransitionRef = useRef(isPreloaderTransition);
+
+  useEffect(() => {
+    const wasTransitioning = wasPreloaderTransitionRef.current;
+    wasPreloaderTransitionRef.current = isPreloaderTransition;
+
+    if (
+      wasTransitioning &&
+      !isPreloaderTransition &&
+      drawnRef.current &&
+      wrapperRef.current
+    ) {
+      redrawPaths(wrapperRef.current, duration, delay);
+    }
+  }, [isPreloaderTransition, duration, delay]);
 
   if (!config) return null;
 
@@ -122,6 +165,10 @@ export default function UiShape({
           strokeWidth={config.strokeWidth}
           strokeLinejoin={config.strokeLinejoin || "bevel"}
           fill={config.fill || "none"}
+          style={{
+            strokeDasharray: HIDDEN_DASH,
+            strokeDashoffset: HIDDEN_DASH,
+          }}
         />
       </svg>
     </div>

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -15,6 +15,14 @@ export default function StatsSection() {
   const bgRef = useRef(null);
   const cardsRef = useRef(null);
   const wrapRefs = useRef([]);
+  const [shapeEntered, setShapeEntered] = useState({});
+
+  const markShapeEntered = (index) => {
+    setShapeEntered((prev) => {
+      if (prev[index]) return prev;
+      return { ...prev, [index]: true };
+    });
+  };
 
   useEffect(() => {
     const wraps = wrapRefs.current.filter(Boolean);
@@ -46,6 +54,15 @@ export default function StatsSection() {
         })
       );
 
+      triggers.push(
+        ScrollTrigger.create({
+          trigger: wrap,
+          start: "top top",
+          onEnter: () => markShapeEntered(index),
+          onEnterBack: () => markShapeEntered(index),
+        })
+      );
+
       if (index < wraps.length - 1) {
         const nextWrap = wraps[index + 1];
         triggers.push(
@@ -68,6 +85,13 @@ export default function StatsSection() {
     });
 
     ScrollTrigger.refresh();
+
+    wraps.forEach((wrap, index) => {
+      const rect = wrap.getBoundingClientRect();
+      if (rect.top <= 1 && rect.bottom > window.innerHeight * 0.5) {
+        markShapeEntered(index);
+      }
+    });
 
     return () => {
       triggers.forEach((trigger) => trigger.kill());
@@ -105,7 +129,7 @@ export default function StatsSection() {
                 color: stat.textColor,
               }}
             >
-              <UiShape shape={getStatsShape(index)} />
+              <UiShape shape={getStatsShape(index)} entered={shapeEntered[index]} />
 
               <AnimatedParagraph as="h3" className="stats__card-title" text={stat.title} />
 

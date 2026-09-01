@@ -187,6 +187,8 @@ body::-webkit-scrollbar {
 
 .stats__card .ui-shape path {
   fill: none;
+  stroke-dasharray: 99999;
+  stroke-dashoffset: 99999;
 }
 
 .ui-card {
@@ -197,8 +199,7 @@ body::-webkit-scrollbar {
   min-height: 32rem;
 }
 
-.faq__inner,
-.testimonials__inner {
+.faq__inner {
   margin: 0 auto;
   max-width: 144rem;
   padding: 8rem 3.2rem;
@@ -208,12 +209,32 @@ body::-webkit-scrollbar {
   gap: 6rem;
 }
 
+.testimonials {
+  overflow: hidden;
+  padding: 8rem 0;
+}
+
+.testimonials__container {
+  width: 100%;
+}
+
+.testimonials__content {
+  min-width: 0;
+}
+
+.testimonials__quote {
+  max-width: 100%;
+}
+
 @media (max-width: 768px) {
-  .faq__inner,
-  .testimonials__inner {
+  .faq__inner {
     grid-template-columns: 1fr;
     padding: 4rem 1.6rem;
     gap: 3rem;
+  }
+
+  .testimonials {
+    padding: 4rem 0;
   }
 }
 
