@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState } from "react";
 import Link from "next/link";
 import MainLogo from "@/components/ui/MainLogo";
 import BLogo from "@/components/ui/BLogo";
@@ -8,32 +8,22 @@ import SwooshButton from "@/components/ui/SwooshButton";
 import { mainNav } from "@/data/navigation";
 
 const LOGIN_URL = "https://app.beetogreen.com/login";
+const BLUR_LOGO_COLOR = "#E6FF55";
 
 export default function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
-  const headerRef = useRef(null);
-
-  useEffect(() => {
-    const onScroll = () => {
-      if (!headerRef.current) return;
-      const scrolled = window.scrollY > 50;
-      headerRef.current.classList.toggle("nav--scrolled", scrolled);
-    };
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
 
   return (
     <>
-      <header className="nav nav--blur" ref={headerRef}>
+      <header className="nav nav--blur">
         <div className="nav__overlay" aria-hidden="true" />
         <div className="nav__interactive-zone">
           <div className="nav__container">
             <Link href="/" className="nav__logo nav__logo--desktop" aria-label="Back to homepage">
-              <MainLogo />
+              <MainLogo color={BLUR_LOGO_COLOR} />
             </Link>
             <Link href="/" className="nav__logo nav__logo--mobile" aria-label="Back to homepage">
-              <BLogo style={{ height: "3.2rem", width: "auto" }} color="#E6FF55" />
+              <BLogo style={{ height: "3.2rem", width: "auto" }} color={BLUR_LOGO_COLOR} />
             </Link>
 
             <ul className="nav__links">
@@ -61,10 +51,22 @@ export default function Header() {
               <Link href="/en" className="nav__lang" aria-label="Language">
                 EN
               </Link>
-              <SwooshButton href={LOGIN_URL} variant="transparent" size="sm">
+              <SwooshButton
+                href={LOGIN_URL}
+                variant="transparent"
+                size="sm"
+                animate={false}
+                className="nav__cta-link"
+              >
                 Log in
               </SwooshButton>
-              <SwooshButton href="/contact" variant="secondary" size="sm">
+              <SwooshButton
+                href="/contact"
+                variant="primary"
+                size="sm"
+                animate={false}
+                className="nav__cta-link"
+              >
                 Book a demo
               </SwooshButton>
               <button
@@ -105,10 +107,10 @@ export default function Header() {
           ))}
         </ul>
         <div className="nav__mobile-actions">
-          <SwooshButton href={LOGIN_URL} variant="transparent" size="md">
+          <SwooshButton href={LOGIN_URL} variant="transparent" size="md" animate={false}>
             Log in
           </SwooshButton>
-          <SwooshButton href="/contact" variant="secondary" size="md">
+          <SwooshButton href="/contact" variant="primary" size="md" animate={false}>
             Book a demo
           </SwooshButton>
         </div>
