@@ -1,0 +1,1 @@
+import{d as a,o as n,g as o,ae as s,as as _,a5 as t}from"./rxBUV76z.js";const r=a({__name:"Shape",setup(p){return(e,c)=>(n(),o(t,s(_(e.$attrs)),null,16))}}),u=Object.assign(r,{__name:"HomeShape"});export{u as _};

@@ -1,0 +1,1 @@
+const s=(r,n=" ")=>{let e="";for(let t=0;t<r.length;t++)"text"in r[t]&&(e+=(e?n:"")+r[t].text);return e},o=(r,...n)=>{if(r){const[e]=n;let t;return typeof e=="string"?t={separator:e}:t={...e},s(r,t.separator)}else return null};export{o as a};

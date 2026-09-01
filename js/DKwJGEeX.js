@@ -1,0 +1,1 @@
+import{L as n,z as r,O as o}from"./rxBUV76z.js";const u=["blur","light-green","dark"],s=t=>typeof t=="string"&&u.includes(t)?t:"blur",i=t=>{const e=n();e.setNavVariant(s(r(t))),o(()=>{const a=r(t);e.setNavVariant(s(a))})};export{i as u};

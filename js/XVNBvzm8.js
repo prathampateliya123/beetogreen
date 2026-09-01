@@ -1,0 +1,1 @@
+import{k as l,N as c,r as a}from"./rxBUV76z.js";const v=(n,o,t,i={})=>{let e=null;const s=a(!1);return l(()=>{n.value&&(e=new IntersectionObserver(u=>{u.forEach(r=>{s.value=r.isIntersecting,r.isIntersecting?o():t()})},i),e.observe(n.value))}),c(()=>{e&&n.value&&(e.disconnect(),e=null)}),{isIntersecting:s}};export{v as u};
