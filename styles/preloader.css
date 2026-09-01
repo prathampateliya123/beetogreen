@@ -1,0 +1,34 @@
+.preloader {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  background-color: #0c1e18;
+  clip-path: inset(0 0 0 0);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: clip-path 1s cubic-bezier(0.77, 0, 0.175, 1);
+}
+
+.preloader--exit {
+  clip-path: inset(0 0 100% 0);
+  pointer-events: none;
+}
+
+.preloader__logo {
+  width: 8rem;
+  height: 8rem;
+  animation: preloader-pulse 1.2s ease-in-out infinite;
+}
+
+@keyframes preloader-pulse {
+  0%,
+  100% {
+    opacity: 0.4;
+    transform: scale(0.95);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
