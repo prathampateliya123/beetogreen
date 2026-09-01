@@ -153,9 +153,8 @@ export const stats = [
   {
     title: "Well-being",
     value: "81%",
-    subtitle: "",
-    description:
-      "of cyclists report improved overall well-being from active commuting.",
+    subtitle: "of cyclists report improved overall well-being from active commuting.",
+    description: "",
     bgColor: "#F3EEFC",
     textColor: "#4B1A9A",
   },
@@ -165,26 +164,26 @@ export const stats = [
     subtitle: "Lower risk of chronic diseases",
     description:
       "Active mobility (including daily cycling) is linked to a reduced risk of cardiovascular disease, diabetes, and cancer.",
-    bgColor: "#E8F5E9",
-    textColor: "#1B5E20",
+    bgColor: "#FDF1ED",
+    textColor: "#E54C1E",
   },
   {
     title: "Absenteeism",
     value: "",
-    subtitle: "20 to 30% fewer absence days",
-    description:
-      "among physically active workers (including regular cyclists) compared to sedentary ones.",
-    bgColor: "#FFF3E0",
-    textColor: "#E65100",
+    subtitle:
+      "20 to 30% fewer absence days among physically active workers (including regular cyclists) compared to sedentary ones.",
+    description: "",
+    bgColor: "#ECF6FE",
+    textColor: "#033968",
   },
   {
     title: "Impact",
     value: "",
-    subtitle: "0.5 tons of CO₂ saved per year",
-    description:
-      "when an employee swaps their car for a bike on the commute.",
-    bgColor: "#E3F2FD",
-    textColor: "#0D47A1",
+    subtitle:
+      "0.5 tons of CO₂ saved per year when an employee swaps their car for a bike on the commute.",
+    description: "",
+    bgColor: "#D4F5E0",
+    textColor: "#005236",
   },
 ];
 

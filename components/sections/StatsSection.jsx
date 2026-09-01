@@ -4,64 +4,98 @@ import { useEffect, useRef } from "react";
 import Image from "next/image";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import AnimatedParagraph from "@/components/ui/AnimatedParagraph";
+import UiShape, { getStatsShape } from "@/components/ui/UiShape";
 import { stats } from "@/data/home";
+
+gsap.registerPlugin(ScrollTrigger);
 
 export default function StatsSection() {
   const sectionRef = useRef(null);
+  const bgRef = useRef(null);
+  const cardsRef = useRef(null);
+  const wrapRefs = useRef([]);
 
   useEffect(() => {
-    const wraps = sectionRef.current?.querySelectorAll(".stats__card-wrap");
-    if (!wraps?.length) return;
+    const wraps = wrapRefs.current.filter(Boolean);
+    const lastWrap = wraps[wraps.length - 1];
+    const triggers = [];
 
-    wraps.forEach((wrap, index) => {
-      const card = wrap.querySelector(".stats__card");
-      if (!card) return;
+    if (!bgRef.current || !lastWrap || wraps.length === 0) return;
 
+    triggers.push(
       ScrollTrigger.create({
-        trigger: wrap,
+        trigger: bgRef.current,
         start: "top top",
-        end: "bottom top",
+        endTrigger: lastWrap,
+        end: "top top",
         pin: true,
         pinSpacing: false,
-        scrub: 0.5,
-      });
+      })
+    );
 
-      gsap.fromTo(
-        card,
-        { scale: 1, rotateX: 0, rotate: 0 },
-        {
-          scale: 0.8,
-          rotateX: 36,
-          rotate: 4,
-          ease: "none",
-          scrollTrigger: {
-            trigger: wrap,
-            start: "top top",
-            end: "bottom top",
-            scrub: 0.5,
-          },
-        }
+    wraps.forEach((wrap, index) => {
+      triggers.push(
+        ScrollTrigger.create({
+          trigger: wrap,
+          start: "top top",
+          endTrigger: lastWrap,
+          end: "top top",
+          pin: true,
+          pinSpacing: false,
+        })
       );
+
+      if (index < wraps.length - 1) {
+        const nextWrap = wraps[index + 1];
+        triggers.push(
+          ScrollTrigger.create({
+            trigger: nextWrap,
+            start: "top bottom",
+            end: "top top",
+            scrub: 0.5,
+            onUpdate: (self) => {
+              const progress = self.progress;
+              gsap.set(wrap, {
+                rotate: 4 * progress,
+                rotateX: 36 * progress,
+                scale: 1 - 0.2 * progress,
+              });
+            },
+          })
+        );
+      }
     });
 
-    return () => ScrollTrigger.getAll().forEach((t) => t.kill());
+    ScrollTrigger.refresh();
+
+    return () => {
+      triggers.forEach((trigger) => trigger.kill());
+    };
   }, []);
 
   return (
     <section className="stats" ref={sectionRef}>
-      <div className="stats__bg" style={{ position: "relative" }}>
+      <div className="stats__bg" ref={bgRef}>
         <Image
-          src="/images/Card-section2_1.png"
-          alt=""
+          src="/images/Card-section2.png"
+          alt="Beetogreen employee"
           fill
           sizes="100vw"
           className="stats__bg-image"
           style={{ objectFit: "cover" }}
         />
       </div>
-      <div className="stats__cards">
-        {stats.map((stat) => (
-          <div key={stat.title} className="stats__card-wrap">
+
+      <div className="stats__cards" ref={cardsRef}>
+        {stats.map((stat, index) => (
+          <div
+            key={stat.title}
+            className="stats__card-wrap"
+            ref={(el) => {
+              wrapRefs.current[index] = el;
+            }}
+          >
             <article
               className="stats__card"
               style={{
@@ -71,14 +105,31 @@ export default function StatsSection() {
                 color: stat.textColor,
               }}
             >
-              <h3 className="stats__card-title">{stat.title}</h3>
+              <UiShape shape={getStatsShape(index)} />
+
+              <AnimatedParagraph as="h3" className="stats__card-title" text={stat.title} />
+
               <div
-                className={`stats__card-subtitle-row ${stat.value ? "stats__card-subtitle-row--with-number" : ""}`}
+                className={`stats__card-subtitle-row ${
+                  stat.value ? "stats__card-subtitle-row--with-number" : ""
+                }`}
               >
-                {stat.value && <p className="stats__card-number">{stat.value}</p>}
-                {stat.subtitle && <p className="stats__card-subtitle">{stat.subtitle}</p>}
+                {stat.value && (
+                  <AnimatedParagraph as="p" className="stats__card-number" text={stat.value} delay={0} />
+                )}
+                {stat.subtitle && (
+                  <AnimatedParagraph as="p" className="stats__card-subtitle" text={stat.subtitle} delay={0} />
+                )}
               </div>
-              <p className="stats__card-description">{stat.description}</p>
+
+              {stat.description && (
+                <AnimatedParagraph
+                  as="p"
+                  className="stats__card-description"
+                  text={stat.description}
+                  delay={0}
+                />
+              )}
             </article>
           </div>
         ))}

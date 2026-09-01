@@ -172,6 +172,18 @@ body::-webkit-scrollbar {
   position: relative;
 }
 
+.stats__card .ui-shape {
+  position: absolute;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.stats__card .ui-shape svg {
+  display: block;
+  height: auto;
+  width: 100%;
+}
+
 .ui-card {
   border-radius: 1.6rem;
   padding: 4rem;
