@@ -20,15 +20,15 @@ gsap.registerPlugin(ScrollTrigger);
 export default function Footer() {
   const year = new Date().getFullYear();
   const wrapRef = useRef(null);
-  const footerRef = useRef(null);
+  const innerRef = useRef(null);
   const { lenis } = useApp();
 
   useEffect(() => {
-    if (!wrapRef.current || !footerRef.current) return;
+    if (!wrapRef.current || !innerRef.current) return;
 
     const animation = gsap.fromTo(
-      footerRef.current,
-      { yPercent: -25 },
+      innerRef.current,
+      { yPercent: -12 },
       {
         yPercent: 0,
         ease: "none",
@@ -57,8 +57,8 @@ export default function Footer() {
 
   return (
     <div className="footer-wrap" ref={wrapRef}>
-      <footer className="footer" ref={footerRef}>
-        <div className="footer__inner">
+      <footer className="footer">
+        <div className="footer__inner" ref={innerRef}>
           <div className="footer__row footer__row--top">
             <div className="footer__col footer__col--brand">
               <div className="footer__logo">

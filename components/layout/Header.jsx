@@ -8,22 +8,21 @@ import SwooshButton from "@/components/ui/SwooshButton";
 import { mainNav } from "@/data/navigation";
 
 const LOGIN_URL = "https://app.beetogreen.com/login";
-const BLUR_LOGO_COLOR = "#E6FF55";
 
 export default function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
 
   return (
     <>
-      <header className="nav nav--blur">
+      <header className="nav">
         <div className="nav__overlay" aria-hidden="true" />
         <div className="nav__interactive-zone">
           <div className="nav__container">
             <Link href="/" className="nav__logo nav__logo--desktop" aria-label="Back to homepage">
-              <MainLogo color={BLUR_LOGO_COLOR} />
+              <MainLogo color="#0c1e18" />
             </Link>
             <Link href="/" className="nav__logo nav__logo--mobile" aria-label="Back to homepage">
-              <BLogo style={{ height: "3.2rem", width: "auto" }} color={BLUR_LOGO_COLOR} />
+              <BLogo style={{ height: "3.2rem", width: "auto" }} color="#0c1e18" />
             </Link>
 
             <ul className="nav__links">
@@ -53,7 +52,7 @@ export default function Header() {
               </Link>
               <SwooshButton
                 href={LOGIN_URL}
-                variant="transparent"
+                variant="secondary"
                 size="sm"
                 animate={false}
                 className="nav__cta-link"
@@ -62,7 +61,7 @@ export default function Header() {
               </SwooshButton>
               <SwooshButton
                 href="/contact"
-                variant="primary"
+                variant="tertiary"
                 size="sm"
                 animate={false}
                 className="nav__cta-link"
@@ -107,10 +106,10 @@ export default function Header() {
           ))}
         </ul>
         <div className="nav__mobile-actions">
-          <SwooshButton href={LOGIN_URL} variant="transparent" size="md" animate={false}>
+          <SwooshButton href={LOGIN_URL} variant="secondary" size="md" animate={false}>
             Log in
           </SwooshButton>
-          <SwooshButton href="/contact" variant="primary" size="md" animate={false}>
+          <SwooshButton href="/contact" variant="tertiary" size="md" animate={false}>
             Book a demo
           </SwooshButton>
         </div>
