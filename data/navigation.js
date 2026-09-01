@@ -31,16 +31,16 @@ export const footerNav = [
   {
     label: "Solutions",
     links: [
-      { label: "For employers", href: "/solutions/employeurs" },
-      { label: "For employees", href: "/solutions/salaries" },
+      { label: "Employers", href: "/solutions/employeurs" },
+      { label: "Employees", href: "/solutions/salaries" },
       { label: "Become a partner", href: "/solutions/partenaire" },
     ],
   },
   {
     label: "Pricing",
     links: [
-      { label: "For employers", href: "/tarifs/employeurs" },
-      { label: "For employees", href: "/tarifs/salaries" },
+      { label: "Employers", href: "/tarifs/employeurs" },
+      { label: "Employees", href: "/tarifs/salaries" },
     ],
   },
   {
@@ -54,7 +54,7 @@ export const footerNav = [
 
 export const legalLinks = [
   { label: "Legal notice", href: "/mentions-legales" },
-  { label: "Privacy policy", href: "/confidentialite" },
+  { label: "Privacy", href: "/confidentialite" },
   { label: "Terms", href: "/cgu" },
 ];
 

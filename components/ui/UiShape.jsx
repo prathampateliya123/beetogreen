@@ -1,3 +1,8 @@
+"use client";
+
+import { useEffect, useRef } from "react";
+import { useApp } from "@/context/AppContext";
+
 const SHAPES = {
   BottomRound: {
     viewBox: "0 0 513 844",
@@ -24,12 +29,82 @@ const SHAPES = {
 
 const CARD_SHAPES = ["BottomRound", "E", "TopRound", "ReverseB"];
 
-export default function UiShape({ shape, className = "" }) {
+function preparePaths(container) {
+  const paths = container.querySelectorAll("path");
+  paths.forEach((path) => {
+    const length = path.getTotalLength();
+    path.style.strokeDasharray = `${length}`;
+    path.style.strokeDashoffset = `${length}`;
+    path.style.transition = "none";
+  });
+}
+
+function drawPaths(container, duration = 1.5, delay = 0.1) {
+  const paths = container.querySelectorAll("path");
+  paths.forEach((path) => {
+    path.style.transition = `stroke-dashoffset ${duration}s cubic-bezier(0.65, 0, 0.35, 1) ${delay}s`;
+    path.style.strokeDashoffset = "0";
+  });
+}
+
+export default function UiShape({
+  shape,
+  className = "",
+  duration = 1.5,
+  delay = 0.1,
+  threshold = 0.5,
+}) {
+  const wrapperRef = useRef(null);
+  const drawnRef = useRef(false);
+  const { isPreloaderDone, isPreloaderTransition } = useApp();
   const config = SHAPES[shape];
+
+  const canAnimate = isPreloaderDone && !isPreloaderTransition;
+
+  useEffect(() => {
+    if (!wrapperRef.current || !config) return;
+    preparePaths(wrapperRef.current);
+  }, [config]);
+
+  useEffect(() => {
+    if (!wrapperRef.current || !config || !canAnimate) return;
+
+    const node = wrapperRef.current;
+
+    const runDraw = () => {
+      if (drawnRef.current) return;
+      drawnRef.current = true;
+      preparePaths(node);
+      node.getBoundingClientRect();
+      drawPaths(node, duration, delay);
+    };
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          runDraw();
+          observer.disconnect();
+        }
+      },
+      { threshold }
+    );
+
+    observer.observe(node);
+
+    const rect = node.getBoundingClientRect();
+    const inView = rect.top < window.innerHeight * 0.75 && rect.bottom > window.innerHeight * 0.25;
+    if (inView) {
+      requestAnimationFrame(runDraw);
+    }
+
+    return () => observer.disconnect();
+  }, [canAnimate, config, duration, delay, threshold]);
+
   if (!config) return null;
 
   return (
     <div
+      ref={wrapperRef}
       className={`ui-shape ${className}`.trim()}
       style={{
         top: "50%",
@@ -46,7 +121,7 @@ export default function UiShape({ shape, className = "" }) {
           stroke="currentColor"
           strokeWidth={config.strokeWidth}
           strokeLinejoin={config.strokeLinejoin || "bevel"}
-          fill={config.fill || undefined}
+          fill={config.fill || "none"}
         />
       </svg>
     </div>

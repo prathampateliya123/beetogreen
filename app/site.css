@@ -5,6 +5,7 @@
 @import "../styles/Container.-1TeyV9L.css";
 @import "../styles/Paragraph.CRdX1T3w.css";
 @import "../styles/Parallax.p3rgqv7e.css";
+@import "../styles/Social.BHG32wXE.css";
 @import "../styles/Footer.E3La4QEm.css";
 @import "../styles/index.BYijqyi4.css";
 @import "../styles/index.BxJtsw4W.css";
@@ -182,6 +183,10 @@ body::-webkit-scrollbar {
   display: block;
   height: auto;
   width: 100%;
+}
+
+.stats__card .ui-shape path {
+  fill: none;
 }
 
 .ui-card {
