@@ -10,12 +10,15 @@ import { stats } from "@/data/home";
 
 gsap.registerPlugin(ScrollTrigger);
 
+const MOBILE_QUERY = "(max-width: 768px)";
+
 export default function StatsSection() {
   const sectionRef = useRef(null);
   const bgRef = useRef(null);
   const cardsRef = useRef(null);
   const wrapRefs = useRef([]);
   const [shapeEntered, setShapeEntered] = useState({});
+  const [isMobile, setIsMobile] = useState(false);
 
   const markShapeEntered = (index) => {
     setShapeEntered((prev) => {
@@ -25,11 +28,45 @@ export default function StatsSection() {
   };
 
   useEffect(() => {
+    const media = window.matchMedia(MOBILE_QUERY);
+    const syncMobile = () => setIsMobile(media.matches);
+    syncMobile();
+    media.addEventListener("change", syncMobile);
+    return () => media.removeEventListener("change", syncMobile);
+  }, []);
+
+  useEffect(() => {
     const wraps = wrapRefs.current.filter(Boolean);
     const lastWrap = wraps[wraps.length - 1];
     const triggers = [];
 
     if (!bgRef.current || !lastWrap || wraps.length === 0) return;
+
+    if (isMobile) {
+      wraps.forEach((wrap, index) => {
+        triggers.push(
+          ScrollTrigger.create({
+            trigger: wrap,
+            start: "top 85%",
+            onEnter: () => markShapeEntered(index),
+            onEnterBack: () => markShapeEntered(index),
+          })
+        );
+      });
+
+      ScrollTrigger.refresh();
+
+      wraps.forEach((wrap, index) => {
+        const rect = wrap.getBoundingClientRect();
+        if (rect.top < window.innerHeight && rect.bottom > 0) {
+          markShapeEntered(index);
+        }
+      });
+
+      return () => {
+        triggers.forEach((trigger) => trigger.kill());
+      };
+    }
 
     triggers.push(
       ScrollTrigger.create({
@@ -95,11 +132,14 @@ export default function StatsSection() {
 
     return () => {
       triggers.forEach((trigger) => trigger.kill());
+      wraps.forEach((wrap) => {
+        gsap.set(wrap, { clearProps: "rotate,rotateX,scale" });
+      });
     };
-  }, []);
+  }, [isMobile]);
 
   return (
-    <section className="stats" ref={sectionRef}>
+    <section className={`stats ${isMobile ? "stats--no-pin" : ""}`} ref={sectionRef}>
       <div className="stats__bg" ref={bgRef}>
         <Image
           src="/images/Card-section2.png"

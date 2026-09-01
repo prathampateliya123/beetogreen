@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import MainLogo from "@/components/ui/MainLogo";
 import BLogo from "@/components/ui/BLogo";
@@ -12,10 +12,30 @@ const LOGIN_URL = "https://app.beetogreen.com/login";
 export default function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
 
+  useEffect(() => {
+    document.body.classList.toggle("nav-open", mobileOpen);
+    return () => document.body.classList.remove("nav-open");
+  }, [mobileOpen]);
+
+  useEffect(() => {
+    if (!mobileOpen) return;
+    const onKeyDown = (event) => {
+      if (event.key === "Escape") setMobileOpen(false);
+    };
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [mobileOpen]);
+
+  const closeMobileMenu = () => setMobileOpen(false);
+
   return (
     <>
       <header className="nav">
-        <div className="nav__overlay" aria-hidden="true" />
+        <div
+          className={`nav__overlay ${mobileOpen ? "nav__overlay--visible" : ""}`}
+          aria-hidden={!mobileOpen}
+          onClick={closeMobileMenu}
+        />
         <div className="nav__interactive-zone">
           <div className="nav__container">
             <Link href="/" className="nav__logo nav__logo--desktop" aria-label="Back to homepage">
@@ -81,14 +101,17 @@ export default function Header() {
         </div>
       </header>
 
-      <div className={`nav__mobile-menu ${mobileOpen ? "nav__mobile-menu--open" : ""}`}>
+      <div
+        className={`nav__mobile-menu ${mobileOpen ? "nav__mobile-menu--open" : ""}`}
+        aria-hidden={!mobileOpen}
+      >
         <ul className="nav__mobile-list">
           {mainNav.map((item) => (
             <li key={item.label}>
               <Link
                 href={item.href}
                 className="nav__mobile-link"
-                onClick={() => setMobileOpen(false)}
+                onClick={closeMobileMenu}
               >
                 {item.label}
               </Link>
@@ -97,7 +120,7 @@ export default function Header() {
                   key={child.href}
                   href={child.href}
                   className="nav__mobile-sublink"
-                  onClick={() => setMobileOpen(false)}
+                  onClick={closeMobileMenu}
                 >
                   {child.label}
                 </Link>
@@ -106,6 +129,9 @@ export default function Header() {
           ))}
         </ul>
         <div className="nav__mobile-actions">
+          <Link href="/en" className="nav__mobile-lang" onClick={closeMobileMenu}>
+            EN
+          </Link>
           <SwooshButton href={LOGIN_URL} variant="secondary" size="md" animate={false}>
             Log in
           </SwooshButton>

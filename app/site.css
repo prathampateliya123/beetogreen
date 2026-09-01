@@ -20,6 +20,7 @@
 @import "../styles/index.DLF3zrfp.css";
 @import "../styles/nav.css";
 @import "../styles/preloader.css";
+@import "../styles/responsive.css";
 
 :root {
   --nav-height: 8rem;
@@ -201,14 +202,6 @@ body::-webkit-scrollbar {
   stroke-dashoffset: 99999;
 }
 
-.ui-card {
-  border-radius: 1.6rem;
-  padding: 4rem;
-  display: flex;
-  flex-direction: column;
-  min-height: 32rem;
-}
-
 .faq__inner {
   margin: 0 auto;
   max-width: 144rem;
@@ -232,8 +225,12 @@ body::-webkit-scrollbar {
 }
 
 .testimonials {
+  align-items: center;
+  display: flex;
+  height: 100vh;
   overflow: hidden;
-  padding: 8rem 0;
+  padding: 4rem 0;
+  width: 100%;
 }
 
 .testimonials__container {
@@ -254,7 +251,9 @@ body::-webkit-scrollbar {
   }
 
   .testimonials {
-    padding: 4rem 0;
+    display: block;
+    height: auto;
+    padding: 2rem 0;
   }
 }
 
@@ -276,8 +275,8 @@ body::-webkit-scrollbar {
 
 .footer__inner {
   flex: 1;
-  gap: 5rem;
-  margin-bottom: 0;
+  gap: 8rem;
+  margin-bottom: 6rem;
   padding-top: calc(var(--nav-height) + 2rem);
 }
 
@@ -287,7 +286,8 @@ body::-webkit-scrollbar {
   }
 
   .footer__inner {
-    gap: 3.5rem;
+    gap: 5rem;
+    margin-bottom: 6rem;
     padding-top: calc(var(--nav-height) + 1.6rem);
   }
 }

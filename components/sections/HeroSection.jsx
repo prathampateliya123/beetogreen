@@ -61,10 +61,6 @@ export default function HeroSection() {
       <div
         className="ui-shape section-hero__shape"
         style={{
-          top: "-10rem",
-          left: "-10rem",
-          width: "110rem",
-          opacity: 1,
           color: hero.shapeColor,
         }}
         aria-hidden="true"

@@ -1,0 +1,134 @@
+/* Global layout */
+main {
+  overflow-x: clip;
+  width: 100%;
+}
+
+body.nav-open {
+  overflow: hidden;
+  touch-action: none;
+}
+
+/* Hero decorative shape */
+.section-hero__shape {
+  left: -10rem;
+  opacity: 1;
+  top: -10rem;
+  width: 110rem;
+}
+
+@media (max-width: 1024px) {
+  .section-hero__shape {
+    left: -22rem;
+    top: -8rem;
+    width: 80rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .section-hero__shape {
+    left: -28rem;
+    opacity: 0.55;
+    top: -5rem;
+    width: 55rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .section-hero__shape {
+    display: none;
+  }
+}
+
+/* Avantage cards — scoped ui-card overrides */
+.avantage-card.ui-card {
+  border-radius: 1.6rem;
+  display: flex;
+  flex-direction: column;
+  min-height: 32rem;
+  padding: 4rem;
+}
+
+@media (max-width: 768px) {
+  .avantage-card.ui-card {
+    min-height: auto;
+    padding: 2rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .avantage__toggle {
+    max-width: 100%;
+    width: 100%;
+  }
+
+  .avantage__toggle-btn {
+    flex: 1;
+    min-width: 0;
+    text-align: center;
+  }
+}
+
+/* Stats — mobile scroll (no pin) */
+.stats--no-pin {
+  position: relative;
+}
+
+.stats--no-pin .stats__bg {
+  height: 100%;
+  inset: 0;
+  min-height: 100%;
+  position: absolute;
+}
+
+.stats--no-pin .stats__cards {
+  position: relative;
+  z-index: 1;
+}
+
+.stats--no-pin .stats__card-wrap {
+  height: auto;
+  min-height: 85vh;
+  padding: 4rem 1.6rem;
+}
+
+.stats--no-pin .stats__card {
+  min-height: auto;
+  padding: 3rem 1.6rem;
+}
+
+/* CO₂ simulator — prevent horizontal overflow on small screens */
+@media (max-width: 480px) {
+  .simulator-co2__result-value {
+    font-size: 2.8rem !important;
+    white-space: normal;
+    word-break: break-word;
+  }
+
+  .simulator-co2__result-unit {
+    font-size: 1.4rem !important;
+  }
+}
+
+/* Process — tablet spacing */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .process__grid {
+    gap: 4rem;
+  }
+
+  .process__inner {
+    gap: 4rem;
+    padding-top: 8rem;
+  }
+}
+
+/* FAQ — reduce sticky title height on tablets */
+@media (max-width: 1024px) {
+  .faq__left {
+    min-height: auto;
+  }
+
+  .faq__container {
+    gap: 4rem;
+  }
+}
