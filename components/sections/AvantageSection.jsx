@@ -32,7 +32,9 @@ export default function AvantageSection() {
   return (
     <section className="avantage">
       <div className="avantage__container">
-        <AnimatedParagraph as="h2" className="avantage__title" text={avantages.title} />
+        {avantages.title ? (
+          <AnimatedParagraph as="h2" className="avantage__title" text={avantages.title} />
+        ) : null}
 
         <div className="avantage__toggle" ref={toggleRef}>
           <span className="avantage__toggle-pill" ref={pillRef} />

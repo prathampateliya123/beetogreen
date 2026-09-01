@@ -1,20 +1,20 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-import Lottie from "lottie-react";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { Lottie } from "lottie-react";
 import { gsap } from "gsap";
 import { useApp } from "@/context/AppContext";
 import preloaderAnimation from "@/data/preloader-lottie.json";
 
 const WIPE_TRIGGER_RATIO = 0.75;
+const TOTAL_FRAMES = preloaderAnimation.op - preloaderAnimation.ip;
 
 export default function Preloader() {
   const { lenis, setIsPreloaderDone, setIsPreloaderTransition } = useApp();
   const containerRef = useRef(null);
-  const lottieRef = useRef(null);
+  const exitedRef = useRef(false);
   const [visible, setVisible] = useState(true);
   const [lottieVisible, setLottieVisible] = useState(false);
-  const exitedRef = useRef(false);
 
   useEffect(() => {
     document.body.style.overflow = "hidden";
@@ -24,7 +24,7 @@ export default function Preloader() {
     };
   }, [lenis]);
 
-  const exitPreloader = () => {
+  const exitPreloader = useCallback(() => {
     if (!containerRef.current || exitedRef.current) return;
     exitedRef.current = true;
 
@@ -44,25 +44,16 @@ export default function Preloader() {
         document.body.style.overflow = "";
       },
     });
-  };
+  }, [lenis, setIsPreloaderDone, setIsPreloaderTransition]);
 
-  const handleLoaded = () => {
-    setLottieVisible(true);
-    const anim = lottieRef.current;
-    if (!anim) return;
+  const triggerFrame = TOTAL_FRAMES * WIPE_TRIGGER_RATIO;
 
-    const totalFrames = anim.totalFrames;
-    const triggerFrame = totalFrames * WIPE_TRIGGER_RATIO;
-
-    const onEnterFrame = () => {
-      if (anim.currentFrame >= triggerFrame) {
-        anim.removeEventListener("enterFrame", onEnterFrame);
-        exitPreloader();
-      }
-    };
-
-    anim.addEventListener("enterFrame", onEnterFrame);
-    anim.addEventListener("complete", exitPreloader);
+  const subscriptions = {
+    ready: () => setLottieVisible(true),
+    frame: ({ currentFrame }) => {
+      if (currentFrame >= triggerFrame) exitPreloader();
+    },
+    complete: () => exitPreloader(),
   };
 
   if (!visible) return null;
@@ -74,12 +65,11 @@ export default function Preloader() {
         style={{ opacity: lottieVisible ? 1 : 0, transition: "opacity 0.6s ease" }}
       >
         <Lottie
-          lottieRef={lottieRef}
-          animationData={preloaderAnimation}
+          src={preloaderAnimation}
           loop={false}
           autoplay
-          onDOMLoaded={handleLoaded}
-          style={{ width: "100%", height: "100%" }}
+          subscriptions={subscriptions}
+          className="preloader__lottie-player"
         />
       </div>
     </div>

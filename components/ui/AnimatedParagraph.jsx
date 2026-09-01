@@ -15,13 +15,15 @@ function splitHtmlToWords(html) {
 export default function AnimatedParagraph({
   text,
   html,
-  as: Tag = "p",
+  as,
+  tag,
   className,
   style,
   delay = 0.05,
 }) {
   const ref = useRef(null);
   const { isPreloaderDone, isPreloaderTransition } = useApp();
+  const Tag = as || tag || "p";
 
   useEffect(() => {
     if (!ref.current || !isPreloaderDone || isPreloaderTransition) return;
@@ -33,7 +35,17 @@ export default function AnimatedParagraph({
     });
   }, [isPreloaderDone, isPreloaderTransition, delay, text, html]);
 
-  const content = html ? splitHtmlToWords(html) : (text || "").split(" ");
+  const content = html
+    ? splitHtmlToWords(html)
+    : (text || "")
+        .split(/\n/)
+        .flatMap((line, lineIndex, lines) => {
+          const words = line.split(" ").filter(Boolean);
+          if (lineIndex < lines.length - 1 && words.length) {
+            words[words.length - 1] = `${words[words.length - 1]}\n`;
+          }
+          return words;
+        });
 
   return (
     <Tag ref={ref} className={className} style={style} data-animation="paragraph">

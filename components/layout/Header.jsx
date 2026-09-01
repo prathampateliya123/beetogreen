@@ -7,6 +7,8 @@ import BLogo from "@/components/ui/BLogo";
 import SwooshButton from "@/components/ui/SwooshButton";
 import { mainNav } from "@/data/navigation";
 
+const LOGIN_URL = "https://app.beetogreen.com/login";
+
 export default function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const headerRef = useRef(null);
@@ -56,7 +58,10 @@ export default function Header() {
             </ul>
 
             <div className="nav__actions">
-              <SwooshButton href="/login" variant="transparent" size="sm">
+              <Link href="/en" className="nav__lang" aria-label="Language">
+                EN
+              </Link>
+              <SwooshButton href={LOGIN_URL} variant="transparent" size="sm">
                 Log in
               </SwooshButton>
               <SwooshButton href="/contact" variant="secondary" size="sm">
@@ -100,10 +105,10 @@ export default function Header() {
           ))}
         </ul>
         <div className="nav__mobile-actions">
-          <SwooshButton href="/login" variant="transparent" size="md" fullWidth>
+          <SwooshButton href={LOGIN_URL} variant="transparent" size="md">
             Log in
           </SwooshButton>
-          <SwooshButton href="/contact" variant="secondary" size="md" fullWidth>
+          <SwooshButton href="/contact" variant="secondary" size="md">
             Book a demo
           </SwooshButton>
         </div>

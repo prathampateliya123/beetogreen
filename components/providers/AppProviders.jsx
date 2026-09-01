@@ -19,6 +19,7 @@ function SmoothScroll({ children }) {
       smoothWheel: true,
     });
 
+    lenis.stop();
     setLenis(lenis);
     lenis.on("scroll", ScrollTrigger.update);
 

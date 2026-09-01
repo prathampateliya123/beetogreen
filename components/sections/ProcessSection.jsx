@@ -62,7 +62,7 @@ export default function ProcessSection() {
     >
       <div className="process__pin">
         <div className="process__inner">
-          <AnimatedParagraph tag="h2" className="process__title" text={process.title} />
+          <AnimatedParagraph as="h2" className="process__title" text={process.title} />
 
           <div className="process__grid">
             <ul className="process__steps">

@@ -10,10 +10,10 @@ export default function AnimatedWords({
   delay = 0,
 }) {
   const ref = useRef(null);
-  const { isPreloaderDone } = useApp();
+  const { isPreloaderDone, isPreloaderTransition } = useApp();
 
   useEffect(() => {
-    if (!ref.current || !isPreloaderDone) return;
+    if (!ref.current || !isPreloaderDone || isPreloaderTransition) return;
 
     const words = ref.current.querySelectorAll(".word-inner");
     words.forEach((word, index) => {
@@ -22,7 +22,7 @@ export default function AnimatedWords({
         word.classList.add("is-visible");
       });
     });
-  }, [isPreloaderDone, delay, text]);
+  }, [isPreloaderDone, isPreloaderTransition, delay, text]);
 
   const parts = text.split(" ");
 

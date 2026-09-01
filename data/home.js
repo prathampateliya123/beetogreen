@@ -1,5 +1,12 @@
 export const hero = {
-  title: "Mobilité durable pour entreprises et salariés",
+  title: "Mobility that\nmakes a difference*",
+  titleColor: "#E6FF55",
+  subtitle: "*French leader in workplace cycling\n500,000+ eligible employees",
+  subtitleColor: "#FBF8F1",
+  bottomText: "+500 companies trust Beetogreen, and we're really proud of it.",
+  bottomTextColor: "#FBF8F1",
+  asteriskColor: "#FFC4CE",
+  shapeColor: "#0C1E18",
   ctaPrimary: { label: "Discover our solutions", href: "/solutions/employeurs" },
   ctaSecondary: { label: "Learn more", href: "#hero-next" },
 };
@@ -19,7 +26,7 @@ export const activez = {
   subtitleColor: "#ffffff",
   cardBgColor: "#372411",
   cardTextColor: "#fcee98",
-  cardImage: "/images/home_bg.png",
+  cardImage: "/images/Card-section2.png",
   cardTitle: "Up to €600/year*",
   cardSubtitle: "per employee",
   cardDisclaimer: "*via the FMD scheme. Compatible with all mobility schemes.",
@@ -41,7 +48,7 @@ export const process = {
       title: "We actually equip you.",
       description:
         "We give you access to our marketplace designed for the commute. Your teams pick, order, ride. And the Sustainable Mobility Allowance handles the rest.",
-      image: "/images/Card-section2.png",
+      image: "/images/home_bg.png",
       imageAlt: "Beetogreen-equipped employees",
       bgColor: "#F3EEFC",
       textColor: "#4B1A9A",
@@ -52,7 +59,7 @@ export const process = {
       title: "We help you get started, by handling everything that usually gets in the way",
       description:
         "Installation of secure bike racks, bike tests to find the right one, safety training to ride with confidence.",
-      image: "/images/Card-section2_1.png",
+      image: "/images/Card-section2.png",
       imageAlt: "Beetogreen onboarding",
       bgColor: "#E8F5E9",
       textColor: "#1B5E20",
@@ -63,7 +70,7 @@ export const process = {
       title: "We don't leave you on your own. We support you from A to Z.",
       description:
         "Choosing the right bike for your commute, understanding the options (folding, cargo…), activating available subsidies.",
-      image: "/images/Card-section2_2.png",
+      image: "/images/comment-section-3.png",
       imageAlt: "Beetogreen support",
       bgColor: "#FFF3E0",
       textColor: "#E65100",
@@ -72,7 +79,7 @@ export const process = {
 };
 
 export const avantages = {
-  title: "Choosing the right path for every stakeholder",
+  title: "",
   companies: [
     {
       title: "We genuinely make your life easier.",
@@ -320,6 +327,6 @@ export const simulator = {
   equivVoitureLabel: "Km by Car",
   equivAvionLabel: "Km by Plane",
   equivChauffageLabel: "Day of heating",
-  ctaIntro: "Vous aimeriez profiter de BeeToGreen dans votre entreprise ?",
+  ctaIntro: "Would you like to enjoy BeeToGreen at your company?",
   cta: { label: "Try for free", href: "/contact" },
 };

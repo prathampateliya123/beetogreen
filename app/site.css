@@ -6,6 +6,7 @@
 @import "../styles/Paragraph.CRdX1T3w.css";
 @import "../styles/Parallax.p3rgqv7e.css";
 @import "../styles/Footer.E3La4QEm.css";
+@import "../styles/index.BYijqyi4.css";
 @import "../styles/index.BxJtsw4W.css";
 @import "../styles/index.Dypx14aE.css";
 @import "../styles/index.BiayPXqi.css";
@@ -97,10 +98,19 @@ body::-webkit-scrollbar {
   transform: translateY(100%);
 }
 
-.animated-paragraph__word-inner.is-visible,
+.word-inner.is-visible,
+.animated-paragraph__word-inner.is-visible {
+  transform: translateY(0);
+  transition: transform 0.8s cubic-bezier(0.32, 0.72, 0, 1);
+}
+
 .process--entered .reveal-word__inner--entry {
   transform: translateY(0);
   transition: transform 0.8s cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+.section-hero__title .animated-paragraph__word:last-child .animated-paragraph__word-inner {
+  color: var(--asterisk-color, #ffc4ce);
 }
 
 .process--entered .process__step--active .process__step-line-fill {
