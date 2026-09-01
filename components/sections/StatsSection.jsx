@@ -30,13 +30,13 @@ export default function StatsSection() {
         card,
         { scale: 1, rotateX: 0, rotate: 0 },
         {
-          scale: 0.85,
-          rotateX: 8,
-          rotate: index % 2 === 0 ? -3 : 3,
+          scale: 0.8,
+          rotateX: 36,
+          rotate: 4,
           ease: "none",
           scrollTrigger: {
             trigger: wrap,
-            start: "center center",
+            start: "top top",
             end: "bottom top",
             scrub: 0.5,
           },

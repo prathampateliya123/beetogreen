@@ -1,91 +1,118 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { testimonials } from "@/data/home";
 
+const DURATION = 8000;
+
+function ProgressRing({ paused }) {
+  return (
+    <svg className="testimonials__arrow-progress" viewBox="0 0 52 52" aria-hidden="true">
+      <circle
+        cx="26"
+        cy="26"
+        r="24"
+        className={paused ? "testimonials__arrow--paused" : ""}
+        style={{ animationDuration: `${DURATION}ms` }}
+      />
+    </svg>
+  );
+}
+
 export default function TestimonialsSection() {
   const [active, setActive] = useState(0);
-  const [progress, setProgress] = useState(0);
-
-  useEffect(() => {
-    const duration = 8000;
-    const start = Date.now();
-    const progressInterval = setInterval(() => {
-      const elapsed = Date.now() - start;
-      setProgress(Math.min((elapsed / duration) * 100, 100));
-    }, 50);
-
-    const timer = setInterval(() => {
-      setActive((current) => (current + 1) % testimonials.length);
-      setProgress(0);
-    }, duration);
-
-    return () => {
-      clearInterval(timer);
-      clearInterval(progressInterval);
-    };
-  }, [active]);
-
+  const [paused, setPaused] = useState(false);
+  const timerRef = useRef(null);
   const item = testimonials[active];
   const counter = String(active + 1).padStart(2, "0");
   const total = String(testimonials.length).padStart(2, "0");
 
-  const goNext = () => {
-    setActive((current) => (current + 1) % testimonials.length);
-    setProgress(0);
-  };
+  useEffect(() => {
+    if (paused) return;
+    timerRef.current = window.setTimeout(() => {
+      setActive((current) => (current + 1) % testimonials.length);
+    }, DURATION);
+    return () => {
+      if (timerRef.current) clearTimeout(timerRef.current);
+    };
+  }, [active, paused]);
 
-  const goPrev = () => {
+  const goNext = () => setActive((current) => (current + 1) % testimonials.length);
+  const goPrev = () =>
     setActive((current) => (current - 1 + testimonials.length) % testimonials.length);
-    setProgress(0);
-  };
 
   return (
     <section className="testimonials">
       <div className="testimonials__inner">
-        <div className="testimonials__header">
-          <p className="testimonials__counter">
-            {counter} / {total}
-          </p>
-          <h2 className="testimonials__label">Don&apos;t just take our word for it…</h2>
+        <div className="testimonials__container">
           <div className="testimonials__nav">
-            <button type="button" className="testimonials__arrow" onClick={goPrev} aria-label="Previous testimonial">
-              ←
+            <button
+              type="button"
+              className="testimonials__arrow"
+              onClick={goPrev}
+              aria-label="Previous testimonial"
+            >
+              <svg className="testimonials__arrow-icon" viewBox="0 0 24 24" fill="none">
+                <path d="M15 18l-6-6 6-6" stroke="currentColor" strokeWidth="2" />
+              </svg>
             </button>
             <button
               type="button"
               className="testimonials__arrow testimonials__arrow--next"
               onClick={goNext}
+              onMouseEnter={() => setPaused(true)}
+              onMouseLeave={() => setPaused(false)}
+              onFocus={() => setPaused(true)}
+              onBlur={() => setPaused(false)}
               aria-label="Next testimonial"
-              style={{ "--progress": `${progress}%` }}
             >
-              →
+              <ProgressRing paused={paused} key={active} />
+              <svg className="testimonials__arrow-icon" viewBox="0 0 24 24" fill="none">
+                <path d="M9 18l6-6-6-6" stroke="currentColor" strokeWidth="2" />
+              </svg>
             </button>
           </div>
-        </div>
 
-        <blockquote className="testimonials__quote">
-          {item.quote.split(" ").map((word, index) => (
-            <span key={`${word}-${index}`} className="testimonials__word">
-              <span className="testimonials__word-inner">{word} </span>
-            </span>
-          ))}
-        </blockquote>
+          <div className="testimonials__content">
+            <div className="testimonials__header">
+              <p className="testimonials__counter">
+                {counter} / {total}
+              </p>
+              <h2 className="testimonials__label">Don&apos;t just take our word for it…</h2>
+            </div>
 
-        <footer className="testimonials__author">
-          <Image
-            src={item.image}
-            alt={item.name}
-            width={80}
-            height={80}
-            className="testimonials__author-photo"
-          />
-          <div>
-            <cite className="testimonials__author-name">{item.name}</cite>
-            <p className="testimonials__author-company">{item.company}</p>
+            <blockquote className="testimonials__quote testimonials__quote--entered">
+              {item.quote.split(" ").map((word, index) => (
+                <span
+                  key={`${word}-${index}`}
+                  className="testimonials__word"
+                  style={{ "--delay": `${index * 0.005}s` }}
+                >
+                  <span className="testimonials__word-inner">{word} </span>
+                </span>
+              ))}
+            </blockquote>
+
+            <footer className="testimonials__author">
+              <div className="testimonials__author-photo">
+                <Image
+                  src={item.image}
+                  alt={item.name}
+                  width={80}
+                  height={80}
+                  className="testimonials__author-image"
+                />
+              </div>
+              <div className="testimonials__author-info">
+                <div className="testimonials__author-text">
+                  <cite className="testimonials__author-name">{item.name}</cite>
+                  <p className="testimonials__author-company">{item.company}</p>
+                </div>
+              </div>
+            </footer>
           </div>
-        </footer>
+        </div>
       </div>
     </section>
   );

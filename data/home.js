@@ -1,12 +1,7 @@
 export const hero = {
-  label: "Discover Beetogreen",
   title: "Mobilité durable pour entreprises et salariés",
-  subtitle:
-    "BeeToGreen — Marketplace mobilité durable. Vélos d'entreprise, forfait mobilité durable, solutions clés en main.",
   ctaPrimary: { label: "Discover our solutions", href: "/solutions/employeurs" },
-  ctaSecondary: { label: "Learn more", href: "#activez" },
-  bottomText:
-    "Up to <strong>€600/year*</strong> per employee <span data-asterisk>*via the FMD scheme.</span> Compatible with all mobility schemes.",
+  ctaSecondary: { label: "Learn more", href: "#hero-next" },
 };
 
 export const introLogos = [
@@ -18,42 +13,61 @@ export const introLogos = [
 ];
 
 export const activez = {
-  title: "How do we move you forward, smoothly?",
-  subtitle:
-    "We actually equip you · We help you get started · We support you from A to Z",
-  cta: { label: "Discover our solutions", href: "/solutions/employeurs" },
-  cards: [
-    {
-      stat: "+3,000",
-      statLabel: "bike references",
-      title: "We actually equip you.",
-      description:
-        "We give you access to our marketplace designed for the commute. Your teams pick, order, ride. And the Sustainable Mobility Allowance handles the rest.",
-      image: "/images/Card-section2.png",
-    },
-    {
-      stat: "+5,000",
-      statLabel: "bike racks installed",
-      title: "We help you get started, by handling everything that usually gets in the way",
-      description:
-        "Installation of secure bike racks, bike tests to find the right one, safety training to ride with confidence.",
-      image: "/images/Card-section2_1.png",
-    },
-    {
-      stat: "+10",
-      statLabel: "cycling experts",
-      title: "We don't leave you on your own. We support you from A to Z.",
-      description:
-        "Choosing the right bike for your commute, understanding the options (folding, cargo…), activating available subsidies.",
-      image: "/images/Card-section2_2.png",
-    },
-  ],
+  title: "Discover <strong>Beetogreen</strong>",
+  bgColor: "#0c1e18",
+  titleColor: "#e6ff55",
+  subtitleColor: "#ffffff",
+  cardBgColor: "#372411",
+  cardTextColor: "#fcee98",
+  cardImage: "/images/home_bg.png",
+  cardTitle: "Up to €600/year*",
+  cardSubtitle: "per employee",
+  cardDisclaimer: "*via the FMD scheme. Compatible with all mobility schemes.",
   marqueeLabel: "Compatible with all mobility schemes",
   partnerLogos: [
     { src: "/images/Logo-Worklife-noir-1-1-2048x370 3.png", alt: "Worklife" },
     { src: "/images/betterway_logo_orange_medium 3.png", alt: "Betterway" },
     { src: "/images/pluxee-logo-darkblue-rgb-2048x580 4.png", alt: "Pluxee" },
     { src: "/images/skipr-20211115164750.png", alt: "SKIPR" },
+  ],
+};
+
+export const process = {
+  title: "How do we move you forward, smoothly?",
+  steps: [
+    {
+      label: "We actually equip you",
+      smallLabel: "+3,000 bike references",
+      title: "We actually equip you.",
+      description:
+        "We give you access to our marketplace designed for the commute. Your teams pick, order, ride. And the Sustainable Mobility Allowance handles the rest.",
+      image: "/images/Card-section2.png",
+      imageAlt: "Beetogreen-equipped employees",
+      bgColor: "#F3EEFC",
+      textColor: "#4B1A9A",
+    },
+    {
+      label: "We help you get started",
+      smallLabel: "+5,000 bike racks installed",
+      title: "We help you get started, by handling everything that usually gets in the way",
+      description:
+        "Installation of secure bike racks, bike tests to find the right one, safety training to ride with confidence.",
+      image: "/images/Card-section2_1.png",
+      imageAlt: "Beetogreen onboarding",
+      bgColor: "#E8F5E9",
+      textColor: "#1B5E20",
+    },
+    {
+      label: "We support you from A to Z",
+      smallLabel: "+10 cycling experts",
+      title: "We don't leave you on your own. We support you from A to Z.",
+      description:
+        "Choosing the right bike for your commute, understanding the options (folding, cargo…), activating available subsidies.",
+      image: "/images/Card-section2_2.png",
+      imageAlt: "Beetogreen support",
+      bgColor: "#FFF3E0",
+      textColor: "#E65100",
+    },
   ],
 };
 
@@ -69,6 +83,7 @@ export const avantages = {
       ],
       bgColor: "#005236",
       textColor: "#e6ff55",
+      cta: { label: "See our solutions", href: "/solutions/employeurs" },
     },
     {
       title: "With a decision that holds up.",
@@ -79,6 +94,7 @@ export const avantages = {
       ],
       bgColor: "#0c1e18",
       textColor: "#ffffff",
+      cta: { label: "Simulate financing cost", href: "#simulator" },
     },
     {
       title: "Less gas. More purpose.",
@@ -168,10 +184,9 @@ export const stats = [
 export const ctaSplits = [
   {
     label: "Discover Beetogreen",
-    title: "A marketplace built for the commute",
-    subtitle:
-      "Thousands of bike references, expert advice, and a simple ordering journey for your teams.",
-    cta: { label: "Discover our solutions", href: "/solutions/employeurs" },
+    title: "Discover Beetogreen",
+    subtitle: "",
+    cta: { label: "Try for free", href: "/contact" },
     bgColor: "#4B1A9A",
     textColor: "#F7C9BA",
     image: "/images/marketplaceNew.png",
@@ -179,10 +194,9 @@ export const ctaSplits = [
     overflow: true,
   },
   {
-    label: "Coverage",
-    title: "A national network of cycling experts",
-    subtitle:
-      "From bike selection to safety training, we support your employees at every step.",
+    label: "Discover Beetogreen",
+    title: "Discover Beetogreen",
+    subtitle: "",
     cta: { label: "Learn more", href: "/solutions/employeurs" },
     bgColor: "#F5F0E6",
     textColor: "#0C1E18",
@@ -295,7 +309,7 @@ export const faqItems = [
 ];
 
 export const simulator = {
-  title: "CO₂ simulator",
+  title: "See how much your company can save in CO2 emissions thanks to cycling",
   subtitle:
     "Estimate the environmental impact when more employees swap their car for a bike on the commute.",
   nbSalariesLabel: "Total number of employees",
@@ -307,5 +321,5 @@ export const simulator = {
   equivAvionLabel: "Km by Plane",
   equivChauffageLabel: "Day of heating",
   ctaIntro: "Vous aimeriez profiter de BeeToGreen dans votre entreprise ?",
-  cta: { label: "Book a demo", href: "/contact" },
+  cta: { label: "Try for free", href: "/contact" },
 };

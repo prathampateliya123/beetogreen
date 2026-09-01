@@ -1,6 +1,7 @@
 import HeroSection from "@/components/sections/HeroSection";
 import IntroLogosSection from "@/components/sections/IntroLogosSection";
 import ActivezSection from "@/components/sections/ActivezSection";
+import ProcessSection from "@/components/sections/ProcessSection";
 import AvantageSection from "@/components/sections/AvantageSection";
 import StatsSection from "@/components/sections/StatsSection";
 import CtaSplitSection from "@/components/sections/CtaSplitSection";
@@ -16,6 +17,7 @@ export default function HomePage() {
       <HeroSection />
       <IntroLogosSection />
       <ActivezSection />
+      <ProcessSection />
       <AvantageSection />
       <StatsSection />
       <CtaSplitSection data={ctaSplits[0]} />

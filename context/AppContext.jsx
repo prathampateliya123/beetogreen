@@ -6,16 +6,19 @@ const AppContext = createContext(null);
 
 export function AppProvider({ children }) {
   const [isPreloaderDone, setIsPreloaderDone] = useState(false);
+  const [isPreloaderTransition, setIsPreloaderTransition] = useState(true);
   const [lenis, setLenis] = useState(null);
 
   const value = useMemo(
     () => ({
       isPreloaderDone,
       setIsPreloaderDone,
+      isPreloaderTransition,
+      setIsPreloaderTransition,
       lenis,
       setLenis,
     }),
-    [isPreloaderDone, lenis]
+    [isPreloaderDone, isPreloaderTransition, lenis]
   );
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;

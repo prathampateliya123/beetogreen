@@ -19,9 +19,7 @@ export default function Footer() {
             <div className="footer__logo">
               <BLogo color="#D4F5E0" />
             </div>
-            <p className="footer__headline">
-              Sustainable mobility that moves your teams forward.
-            </p>
+            <p className="footer__headline">Choose sustainable mobility</p>
           </div>
 
           {footerNav.map((group) => (
@@ -48,15 +46,20 @@ export default function Footer() {
             ))}
 
             <div className="footer__contact-block">
+              <p className="footer__col-label">Address</p>
+              <p className="footer__col-value">
+                47 Rue Voltaire, 92300 Levallois-Perret, France
+              </p>
+              <p className="footer__col-label">Contact</p>
               <a href={`mailto:${contactEmail}`} className="footer__col-link footer__col-value">
                 {contactEmail}
               </a>
               <div className="footer__contact-buttons">
                 <SwooshButton href="/contact#salarie" variant="transparent" size="sm">
-                  Employee contact
+                  I&apos;m an employee
                 </SwooshButton>
                 <SwooshButton href="/contact#entreprise" variant="secondary" size="sm">
-                  Employer contact
+                  I&apos;m an employer
                 </SwooshButton>
               </div>
             </div>
@@ -80,7 +83,7 @@ export default function Footer() {
         </div>
 
         <div>
-          <p className="footer__copyright">© {year} BeeToGreen. All rights reserved.</p>
+          <p className="footer__copyright">© {year} Beetogreen</p>
           <a href="#top" className="footer__back-to-top">
             <span className="footer__back-to-top-label">Back to top</span>
             <span className="footer__back-to-top-icon" aria-hidden="true">

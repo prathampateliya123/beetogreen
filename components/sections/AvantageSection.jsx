@@ -1,31 +1,40 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import Link from "next/link";
-import AnimatedWords from "@/components/ui/AnimatedWords";
+import { useApp } from "@/context/AppContext";
+import AnimatedParagraph from "@/components/ui/AnimatedParagraph";
 import SwooshButton from "@/components/ui/SwooshButton";
 import { avantages } from "@/data/home";
 
 export default function AvantageSection() {
   const [tab, setTab] = useState("companies");
   const pillRef = useRef(null);
+  const toggleRef = useRef(null);
   const btnRefs = useRef([]);
   const cards = avantages[tab];
 
-  useEffect(() => {
-    const activeBtn = btnRefs.current[tab === "companies" ? 0 : 1];
+  const updatePill = () => {
+    const activeIndex = tab === "companies" ? 0 : 1;
+    const activeBtn = btnRefs.current[activeIndex];
     const pill = pillRef.current;
     if (!activeBtn || !pill) return;
     pill.style.width = `${activeBtn.offsetWidth}px`;
     pill.style.transform = `translateX(${activeBtn.offsetLeft}px)`;
+  };
+
+  useEffect(() => {
+    updatePill();
+    const observer = new ResizeObserver(updatePill);
+    if (toggleRef.current) observer.observe(toggleRef.current);
+    return () => observer.disconnect();
   }, [tab]);
 
   return (
     <section className="avantage">
       <div className="avantage__container">
-        <AnimatedWords as="h2" className="avantage__title" text={avantages.title} />
+        <AnimatedParagraph as="h2" className="avantage__title" text={avantages.title} />
 
-        <div className="avantage__toggle">
+        <div className="avantage__toggle" ref={toggleRef}>
           <span className="avantage__toggle-pill" ref={pillRef} />
           {[
             { id: "companies", label: "Companies" },
@@ -46,14 +55,12 @@ export default function AvantageSection() {
         </div>
 
         <div className="avantage__cards">
-          <div className="avantage__cards-grid">
+          <div className="avantage__cards-grid" key={tab}>
             {cards.map((card) => (
               <article
                 key={card.title}
                 className="avantage-card ui-card"
                 style={{
-                  "--card-bg": card.bgColor,
-                  "--card-color": card.textColor,
                   backgroundColor: card.bgColor,
                   color: card.textColor,
                 }}
@@ -67,9 +74,14 @@ export default function AvantageSection() {
                   </ul>
                 </div>
                 {card.cta && (
-                  <Link href={card.cta.href} className="avantage-card__cta-link">
-                    <span className="avantage-card__cta-underline">{card.cta.label}</span>
-                  </Link>
+                  <SwooshButton
+                    href={card.cta.href}
+                    variant={card.bgColor === "#e6ff55" ? "primary" : "white"}
+                    size="md"
+                    className="avantage-card__cta-link"
+                  >
+                    {card.cta.label}
+                  </SwooshButton>
                 )}
               </article>
             ))}

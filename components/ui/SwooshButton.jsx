@@ -2,6 +2,8 @@
 
 import { useEffect, useRef } from "react";
 import Link from "next/link";
+import { gsap } from "gsap";
+import { useApp } from "@/context/AppContext";
 import { cn } from "@/lib/utils";
 
 const variantClasses = {
@@ -26,9 +28,11 @@ export default function SwooshButton({
   swoosh = true,
   className,
   onClick,
+  animate = true,
   ...props
 }) {
   const ref = useRef(null);
+  const { isPreloaderDone, isPreloaderTransition } = useApp();
 
   useEffect(() => {
     if (!ref.current || !swoosh) return;
@@ -37,6 +41,18 @@ export default function SwooshButton({
       layer.style.setProperty("--index", index);
     });
   }, [swoosh]);
+
+  useEffect(() => {
+    if (!ref.current || !animate || !isPreloaderDone || isPreloaderTransition) return;
+    gsap.set(ref.current, { opacity: 0, y: 32 });
+    gsap.to(ref.current, {
+      opacity: 1,
+      y: 0,
+      duration: 0.8,
+      ease: "power3.out",
+      delay: 0.4,
+    });
+  }, [animate, isPreloaderDone, isPreloaderTransition]);
 
   const classes = cn(
     "button",
